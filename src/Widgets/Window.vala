@@ -13,7 +13,7 @@ public class PGallery.Window : Gtk.ApplicationWindow {
 	construct {
 	 	title = "PGallery";
 	 	window_position = Gtk.WindowPosition.CENTER;
-		set_default_size (350, 284); // Pinephone resolution
+		set_default_size (360, 288); // Pinephone resolution
 		 
 	 	settings = new GLib.Settings ("com.github.joancipria.pgallery");
 

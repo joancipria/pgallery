@@ -19,7 +19,7 @@ public class PGallery.ViewImageWindow : Gtk.ApplicationWindow {
 	construct {
 
 	 	window_position = Gtk.WindowPosition.CENTER;
-		set_default_size (350, 284); // Pinephone resolution
+		set_default_size (360, 288); // Pinephone resolution
 		 
 	 	settings = new GLib.Settings ("com.github.joancipria.pgallery");
 
@@ -46,7 +46,7 @@ public class PGallery.ViewImageWindow : Gtk.ApplicationWindow {
 		renderedPix = new Gdk.Pixbuf.from_file (imagePath);
 
 		// Scale image
-		renderedPix = utils.scale_image(renderedPix,350, Gdk.InterpType.BILINEAR);
+		renderedPix = utils.scale_image(renderedPix,360, Gdk.InterpType.BILINEAR);
 
 		// Set scaled image
 		image.set_from_pixbuf (renderedPix);
