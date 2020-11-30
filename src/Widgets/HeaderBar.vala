@@ -9,7 +9,7 @@ public class PGallery.HeaderBar : Gtk.HeaderBar {
 
     public void add_back_button (PGallery.ViewImageWindow window_reference){
         // Create back button
-        Gtk.Button back_button = new Gtk.Button.from_icon_name("back");
+        Gtk.Button back_button = new Gtk.Button.from_icon_name("go-previous-symbolic");
 
         // Set suggested style
         back_button.get_style_context().add_class("suggested-action");
