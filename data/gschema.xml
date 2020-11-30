@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
- <schema path="/com/github/alecaddd/PGallery/" id="com.github.joancipria.pgallery" gettext-domain="PGallery">
+ <schema path="/com/github/joancipria/PGallery/" id="com.github.joancipria.pgallery" gettext-domain="PGallery">
 	<key name="pos-x" type="i">
 	 <default>0</default>
 	 <summary>Horizontal position</summary>
