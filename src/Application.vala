@@ -45,7 +45,7 @@ public class Application : Gtk.Application {
 				Gdk.Pixbuf pix = new Gdk.Pixbuf.from_file (imagePath);
 
 				// Scale image to 240px (3 x 240px = 720px)
-				pix = utils.scale_image(pix,240, Gdk.InterpType.NEAREST);
+				pix = utils.scale_image(pix,116, Gdk.InterpType.NEAREST);
 				
 				// Crop image 
 				//pix = new Gdk.Pixbuf.subpixbuf(pix,0,0,240,240);
