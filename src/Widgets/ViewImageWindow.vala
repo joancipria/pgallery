@@ -30,8 +30,9 @@ public class PGallery.ViewImageWindow : Gtk.ApplicationWindow {
 	 		return before_destroy ();
 	 	});
 
-		// Add header bar (back button etc)
-		PGallery.HeaderBar headerbar = new PGallery.HeaderBar (this);
+		// Add header bar
+		PGallery.HeaderBar headerbar = new PGallery.HeaderBar ();
+		headerbar.add_back_button(this);
 		set_titlebar (headerbar);
 		
 	 	show_all ();

@@ -25,6 +25,11 @@ public class PGallery.Window : Gtk.ApplicationWindow {
 	 	});
 
 		this.add(grid);
+
+		PGallery.HeaderBar headerbar = new PGallery.HeaderBar();
+		//headerbar.add_settings_button();
+		set_titlebar (headerbar);
+
 	 	show_all ();
 	}
 
