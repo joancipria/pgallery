@@ -1,7 +1,10 @@
 public class PGallery.Window : Gtk.ApplicationWindow {
 	public GLib.Settings settings;
 	
-	// grid
+	// Scroll container
+	public Gtk.ScrolledWindow scrolled_window = new Gtk.ScrolledWindow (null, null);
+
+	// Grid
 	public Gtk.Grid grid = new Gtk.Grid();
 
 	public Window (Application app) {
@@ -24,7 +27,12 @@ public class PGallery.Window : Gtk.ApplicationWindow {
 	 		return before_destroy ();
 	 	});
 
-		this.add(grid);
+		// Add grid to scroll window
+		scrolled_window.add_with_viewport (grid);
+		scrolled_window.set_policy (Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC);
+
+		// Add scroll window to window
+		this.add(scrolled_window);
 
 		PGallery.HeaderBar headerbar = new PGallery.HeaderBar();
 		//headerbar.add_settings_button();
