@@ -46,7 +46,7 @@ public class PGallery.ViewImageWindow : Gtk.ApplicationWindow {
 		renderedPix = new Gdk.Pixbuf.from_file (imagePath);
 
 		// Scale image
-		renderedPix = utils.scale_image(renderedPix,720);
+		renderedPix = utils.scale_image(renderedPix,720, Gdk.InterpType.BILINEAR);
 
 		// Set scaled image
 		image.set_from_pixbuf (renderedPix);
