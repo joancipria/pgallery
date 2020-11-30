@@ -28,7 +28,7 @@ public class PGallery.Window : Gtk.ApplicationWindow {
 	 	});
 
 		// Add grid to scroll window
-		scrolled_window.add_with_viewport (grid);
+		scrolled_window.add (grid);
 		scrolled_window.set_policy (Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC);
 
 		// Add scroll window to window
