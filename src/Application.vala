@@ -37,44 +37,43 @@ public class Application : Gtk.Application {
 			string imagePath = scanner.pictures_folder+filename;
 
 			// Check if is an image
-			if (".jpg" in filename || ".png" in filename || ".jpeg" in filename || ".gif" in filename ) {						
-				
-				Gtk.Image image = new Gtk.Image ();
-				
-				// Create a Pixbuf from imagePath
-				Gdk.Pixbuf pix = new Gdk.Pixbuf.from_file (imagePath);
-
-				// Scale image to 240px (3 x 120 = 360)
-				pix = utils.scale_image(pix,120, Gdk.InterpType.NEAREST);
-				
-				// Crop image 
-				//pix = new Gdk.Pixbuf.subpixbuf(pix,0,0,240,240);
-
-				// Set scaled image
-				image.set_from_pixbuf (pix);
-
-				// Click event
-				Gtk.EventBox eventbox = new Gtk.EventBox();
-				eventbox.button_press_event.connect( ()=>{ 
-					show_image(filename); // Show image on click
-					return false; 
-				});
-				eventbox.add(image);
 			
-				// Attach grid
-				window.grid.attach (eventbox, column, row, 1, 1);
-				image.show();
-				eventbox.show();	
+			Gtk.Image image = new Gtk.Image ();
+			
+			// Create a Pixbuf from imagePath
+			Gdk.Pixbuf pix = new Gdk.Pixbuf.from_file (imagePath);
+
+			// Scale image to 240px (3 x 120 = 360)
+			pix = utils.scale_image(pix,120, Gdk.InterpType.NEAREST);
+			
+			// Crop image 
+			//pix = new Gdk.Pixbuf.subpixbuf(pix,0,0,240,240);
+
+			// Set scaled image
+			image.set_from_pixbuf (pix);
+
+			// Click event
+			Gtk.EventBox eventbox = new Gtk.EventBox();
+			eventbox.button_press_event.connect( ()=>{ 
+				show_image(filename); // Show image on click
+				return false; 
+			});
+			eventbox.add(image);
+		
+			// Attach grid
+			window.grid.attach (eventbox, column, row, 1, 1);
+			image.show();
+			eventbox.show();	
 
 
-				// Increase counter
-				counter++;
-				column++;
-				if(column == 3){
-					column = 0;
-					row++;
-				}
+			// Increase counter
+			counter++;
+			column++;
+			if(column == 3){
+				column = 0;
+				row++;
 			}
+			
 		}
 	}
 
