@@ -1,4 +1,4 @@
-public class PGallery.Thumbnails
+public class PGallery.ThumbnailsManager
 {
     private PGallery.Utils utils = new PGallery.Utils ();
 
@@ -13,11 +13,11 @@ public class PGallery.Thumbnails
     private PGallery.Thumbnail[] thumbnails = {};
 
 
-    public Thumbnails(){
+    public ThumbnailsManager(){
        
     }
 
-    public void scan_thumbnails(){
+    public void generate_thumbnails(){
 
         foreach (string filename in scanned_images) {
 

@@ -1,7 +1,7 @@
 public class Application : Gtk.Application {
 
 	// Thumbnails manager
-	private PGallery.Thumbnails scanner = new PGallery.Thumbnails ();
+	private PGallery.ThumbnailsManager thumbnails_manager = new PGallery.ThumbnailsManager ();
 	
 	private PGallery.Utils utils = new PGallery.Utils ();
 
@@ -16,9 +16,9 @@ public class Application : Gtk.Application {
 
 		PGallery.Window window = new PGallery.Window (this);
 
-		scanner.scan_pictures_folder.begin((obj, res) => {
+		thumbnails_manager.scan_pictures_folder.begin((obj, res) => {
 			stdout.printf ("Finished scanning Pictures directory\n");
-			scanner.scan_thumbnails();
+			thumbnails_manager.generate_thumbnails();
 			create_grid(window);
 		});
 
@@ -32,7 +32,7 @@ public class Application : Gtk.Application {
 		int row = 0;
 		int column = 0;
 
-		foreach (PGallery.Thumbnail thumb in scanner.get_thumbnails()) {
+		foreach (PGallery.Thumbnail thumb in thumbnails_manager.get_thumbnails()) {
 
 			// Create image
 			Gtk.Image image = new Gtk.Image ();		
@@ -67,6 +67,6 @@ public class Application : Gtk.Application {
 
 	// Create a dialog showing the selected image
 	public void show_image (string filename) {
-		PGallery.ViewImageWindow dialog = new PGallery.ViewImageWindow (this, scanner.pictures_folder+filename);
+		PGallery.ViewImageWindow dialog = new PGallery.ViewImageWindow (this, thumbnails_manager.pictures_folder+filename);
 	}
 }

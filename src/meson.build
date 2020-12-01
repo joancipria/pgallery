@@ -3,7 +3,7 @@ executable(
 
 	'Main.vala',
 	'Application.vala',
-	'Thumbnails.vala',
+	'ThumbnailsManager.vala',
 	'Thumbnail.vala',
 	'Utils.vala',
 
