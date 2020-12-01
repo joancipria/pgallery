@@ -4,11 +4,11 @@ executable(
 	'Main.vala',
 	'Application.vala',
 	'ThumbnailsManager.vala',
-	'Thumbnail.vala',
 	'Utils.vala',
 
 	'Widgets/Window.vala',
-	'Widgets/ViewImageWindow.vala',
+	'Widgets/Thumbnail.vala',
+	'Widgets/ImageViewer.vala',
 	'Widgets/HeaderBar.vala',
 
 	dependencies: [

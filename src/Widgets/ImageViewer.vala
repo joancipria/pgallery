@@ -1,4 +1,4 @@
-public class PGallery.ViewImageWindow : Gtk.ApplicationWindow {
+public class PGallery.ImageViewer : Gtk.ApplicationWindow {
 
 	// gsettings
 	public GLib.Settings settings;
@@ -7,7 +7,7 @@ public class PGallery.ViewImageWindow : Gtk.ApplicationWindow {
 	// Pix of the rendered image
 	private Gdk.Pixbuf renderedPix;
 
-	public ViewImageWindow (Application app, string path) {
+	public ImageViewer (Application app, string path) {
 		Object (
 			application: app
 		);

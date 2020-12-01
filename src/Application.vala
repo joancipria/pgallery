@@ -67,6 +67,7 @@ public class Application : Gtk.Application {
 
 	// Create a dialog showing the selected image
 	public void show_image (string filename) {
-		PGallery.ViewImageWindow dialog = new PGallery.ViewImageWindow (this, thumbnails_manager.pictures_folder+filename);
+		string image_path = thumbnails_manager.pictures_folder+filename;
+		PGallery.ImageViewer dialog = new PGallery.ImageViewer (this, image_path);
 	}
 }
