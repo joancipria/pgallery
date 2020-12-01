@@ -35,9 +35,8 @@ public class Application : Gtk.Application {
 
 			// Get file name
 			string imagePath = scanner.pictures_folder+filename;
-
-			// Check if is an image
 			
+			// Create image
 			Gtk.Image image = new Gtk.Image ();
 			
 			// Create a Pixbuf from imagePath
