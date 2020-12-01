@@ -31,46 +31,31 @@ public class Application : Gtk.Application {
 		int row = 0;
 		int column = 0;
 
+		//stdout.printf ("Generating thumbnails ... Please wait\n");
+
 		foreach (string filename in scanner.get_scanned_images()) {
 
 			// Get file name
-			string imagePath = scanner.pictures_folder+filename;
+			string image_path = scanner.pictures_folder+filename;
 
-			// Get md5 of file
-			Checksum checksum = new Checksum (ChecksumType.MD5);
-
-			FileStream stream = FileStream.open(imagePath, "rb");
-
-			uint8 fbuf[100];
-
-			size_t size;
-
-			while ((size = stream.read(fbuf)) > 0){
-				checksum.update(fbuf,size);
-			}
-			
-			unowned string file_md5 = checksum.get_string();
-			
-			print("%s: %s\n", imagePath, file_md5);
-
-			//stdout.printf ("MD5 "+file_md5+"\n");
-
-
-			//string file_md5 = "a92239b9076dfda18560396bff0c03f2";
-			
+			// Get MD5 of file
+			string file_md5 = utils.get_md5(image_path);
+		
 			// Create image
 			Gtk.Image image = new Gtk.Image ();
 			
-			// Create a Pixbuf from imagePath
-			Gdk.Pixbuf pix = new Gdk.Pixbuf.from_file (scanner.thumbnails_folder+file_md5+".png");
+			// Get / create thumbnail
+			Gdk.Pixbuf pix;
+			try {
+				// Try getting thumbnail from system 
+				pix = new Gdk.Pixbuf.from_file (scanner.thumbnails_folder+file_md5+".png");
+			}
+			catch{
+				// In case of fail, generate own thumbnail
+				pix = utils.generate_thumbnail(image_path);
+			}
 
-			// Scale image to 240px (3 x 120 = 360)
-			//pix = utils.scale_image(pix,120, Gdk.InterpType.NEAREST);
-			
-			// Crop image 
-			//pix = new Gdk.Pixbuf.subpixbuf(pix,0,0,240,240);
-
-			// Set scaled image
+			// Set thumbnail image
 			image.set_from_pixbuf (pix);
 
 			// Click event
