@@ -3,7 +3,8 @@ executable(
 
 	'Main.vala',
 	'Application.vala',
-	'Scan.vala',
+	'Thumbnails.vala',
+	'Thumbnail.vala',
 	'Utils.vala',
 
 	'Widgets/Window.vala',

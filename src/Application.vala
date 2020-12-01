@@ -1,7 +1,7 @@
 public class Application : Gtk.Application {
 
-	// Pictures scanner
-	private PGallery.Scan scanner = new PGallery.Scan ();
+	// Thumbnails manager
+	private PGallery.Thumbnails scanner = new PGallery.Thumbnails ();
 	
 	private PGallery.Utils utils = new PGallery.Utils ();
 
@@ -18,6 +18,7 @@ public class Application : Gtk.Application {
 
 		scanner.scan_pictures_folder.begin((obj, res) => {
 			stdout.printf ("Finished scanning Pictures directory\n");
+			scanner.scan_thumbnails();
 			create_grid(window);
 		});
 
@@ -31,37 +32,18 @@ public class Application : Gtk.Application {
 		int row = 0;
 		int column = 0;
 
-		//stdout.printf ("Generating thumbnails ... Please wait\n");
+		foreach (PGallery.Thumbnail thumb in scanner.get_thumbnails()) {
 
-		foreach (string filename in scanner.get_scanned_images()) {
-
-			// Get file name
-			string image_path = scanner.pictures_folder+filename;
-
-			// Get MD5 of file
-			string file_md5 = utils.get_md5(image_path);
-		
 			// Create image
-			Gtk.Image image = new Gtk.Image ();
-			
-			// Get / create thumbnail
-			Gdk.Pixbuf pix;
-			try {
-				// Try getting thumbnail from system 
-				pix = new Gdk.Pixbuf.from_file (scanner.thumbnails_folder+file_md5+".png");
-			}
-			catch{
-				// In case of fail, generate own thumbnail
-				pix = utils.generate_thumbnail(image_path);
-			}
+			Gtk.Image image = new Gtk.Image ();		
 
 			// Set thumbnail image
-			image.set_from_pixbuf (pix);
+			image.set_from_pixbuf (thumb.thumb_picture);
 
 			// Click event
 			Gtk.EventBox eventbox = new Gtk.EventBox();
 			eventbox.button_press_event.connect( ()=>{ 
-				show_image(filename); // Show image on click
+				show_image(thumb.thumb_name); // Show image on click
 				return false; 
 			});
 			eventbox.add(image);

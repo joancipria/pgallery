@@ -19,7 +19,8 @@ public class PGallery.Utils
 		return newHeight;
 	}
 
-	public Gdk.Pixbuf generate_thumbnail(string image_path){
+	// Generates a Pixbuf thumbnail of the given image
+	public async Gdk.Pixbuf generate_thumbnail(string image_path){
 		stdout.printf ("Generating thumbnail ... Please wait\n");
 		// Reade image file
 		Gdk.Pixbuf pix = new Gdk.Pixbuf.from_file (image_path);
@@ -37,6 +38,7 @@ public class PGallery.Utils
 		return pix;
 	}
 
+	// Calculates the MD5 hash og the given image
 	public string get_md5(string image_path){
 		Checksum checksum = new Checksum (ChecksumType.MD5);
 
