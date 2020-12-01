@@ -3,6 +3,8 @@ public class PGallery.Scan
     // User's Pictures folder
     public string pictures_folder = Environment.get_home_dir ()+"/Pictures/";
 
+    public string thumbnails_folder = Environment.get_home_dir ()+"/.cache/thumbnails/normal/";
+
     // Scanned / detected images
     private string[] scanned_images = {};
 
