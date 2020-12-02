@@ -1,5 +1,7 @@
 public class Application : Gtk.Application {
 
+	PGallery.Window window; 
+
 	// Thumbnails manager
 	private PGallery.ThumbnailsManager thumbnails_manager = new PGallery.ThumbnailsManager ();
 	
@@ -13,19 +15,18 @@ public class Application : Gtk.Application {
 	}
 
 	protected override void activate () {
-
-		PGallery.Window window = new PGallery.Window (this);
+		window = new PGallery.Window (this);
 
 		thumbnails_manager.scan_pictures_folder.begin((obj, res) => {
 			stdout.printf ("Finished scanning Pictures directory\n");
 			thumbnails_manager.generate_thumbnails();
-			create_grid(window);
+			create_grid();
 		});
 
 		add_window (window);
 	}
 
-	private void create_grid(PGallery.Window window){
+	private void create_grid(){
 		int counter = 0;
 
 		// For each found file
