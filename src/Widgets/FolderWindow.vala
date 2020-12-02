@@ -27,13 +27,14 @@ public class PGallery.FolderWindow : Gtk.ApplicationWindow {
 	 		return before_destroy ();
 	 	});
 
+		// Add scroll window to window
+		this.add(scrolled_window);
+
 		// Add grid to scroll window
 		scrolled_window.add (grid);
 		scrolled_window.set_policy (Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC);
 
-		// Add scroll window to window
-		this.add(scrolled_window);
-
+		// Add header bar
 		PGallery.HeaderBar headerbar = new PGallery.HeaderBar();
 		//headerbar.add_settings_button();
 		set_titlebar (headerbar);
