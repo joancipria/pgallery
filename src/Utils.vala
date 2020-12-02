@@ -19,25 +19,6 @@ public class PGallery.Utils
 		return newHeight;
 	}
 
-	// Generates a Pixbuf thumbnail of the given image
-	public async Gdk.Pixbuf generate_thumbnail(string image_path){
-		stdout.printf ("Generating thumbnail ... Please wait\n");
-		// Reade image file
-		Gdk.Pixbuf pix = new Gdk.Pixbuf.from_file (image_path);
-
-		// Scale image
-		pix = scale_image(pix,120, Gdk.InterpType.NEAREST);
-
-		// Folders
-		string cache_folder = Environment.get_home_dir ()+"/.cache/thumbnails/large/";
-		string file_name = get_md5(image_path);
-
-		// Save to disk
-		pix.save(cache_folder+file_name+".png", "png");
-		// Return thumbnail
-		return pix;
-	}
-
 	// Calculates the MD5 hash og the given image
 	public string get_md5(string image_path){
 		Checksum checksum = new Checksum (ChecksumType.MD5);
