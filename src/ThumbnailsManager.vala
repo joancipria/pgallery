@@ -19,31 +19,12 @@ public class PGallery.ThumbnailsManager
 
     public void generate_thumbnails(){
 
+         // Create a thumb for each found image
         foreach (string filename in scanned_images) {
 
-            PGallery.Thumbnail thumb;
-
-            // Get MD5 of file
-            string file_md5 = "";
-            try {
-                file_md5 = utils.get_md5(pictures_folder+filename);
-            }
-            catch (Error err){
-                stderr.printf ("Error: failed to get file_md5 in scan_thumbnails(): %s\n", err.message);
-            }
-            
-            // Get / create thumbnail
+             // Get / create thumbnail
             Gdk.Pixbuf pix = new Gdk.Pixbuf.from_file ("/home/joan/default.png");
-            try {
-                // Try getting thumbnail from system 
-                pix = new Gdk.Pixbuf.from_file (thumbnails_folder+file_md5+".png");
-            }
-            catch {
-                // In case of fail, generate own thumbnail
-                utils.generate_thumbnail.begin(pictures_folder+filename);
-            }
-            // Create thumb
-            thumb = new PGallery.Thumbnail(pix, filename);
+            PGallery.Thumbnail thumb = new PGallery.Thumbnail(pix, filename);
 
             // Add to list
             thumbnails += thumb;
