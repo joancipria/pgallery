@@ -13,7 +13,7 @@ public class PGallery.ImageViewer : Gtk.ApplicationWindow {
 		);
 
 		// Create widgets
-		create_widgets (path);
+		create_widgets.begin(path);
 	}
 
 	construct {
@@ -39,18 +39,23 @@ public class PGallery.ImageViewer : Gtk.ApplicationWindow {
 	}
 
 	// Create widgets (dialog content)
-	private void create_widgets (string imagePath) {
+	private async void create_widgets (string image_path) {
 
 		Gtk.Image image = new Gtk.Image ();
 
-		// Create a Pixbuf from imagePath
-		renderedPix = new Gdk.Pixbuf.from_file (imagePath);
+		GLib.File file = GLib.File.new_for_commandline_arg (image_path);
 
-		// Scale image
-		renderedPix = utils.scale_image(renderedPix,360, Gdk.InterpType.BILINEAR);
-
-		// Set scaled image
-		image.set_from_pixbuf (renderedPix);
+		try {
+            // Async read image
+            GLib.InputStream stream = yield file.read_async ();
+            Gdk.Pixbuf pixbuf = yield new Gdk.Pixbuf.from_stream_at_scale_async (stream, 360, -1, true);
+            
+			// Set scaled image
+			image.set_from_pixbuf (pixbuf);
+        
+        } catch ( GLib.Error e ) {
+          GLib.error (e.message);
+        }
 
 		// Add image
 		this.add(image);

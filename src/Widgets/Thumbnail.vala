@@ -14,10 +14,6 @@ public class PGallery.Thumbnail
 
 
     public Thumbnail(string file_name){
-        // Default thumb icon (to show while generating thumbnail)
-        thumb_picture = new Gdk.Pixbuf.from_file ("/home/joan/default.png");
-        image.set_from_pixbuf (thumb_picture);
-
         // Set filename
         thumb_name = file_name;
 
@@ -48,25 +44,26 @@ public class PGallery.Thumbnail
     }
 
     // Generates a thumbnail from the original image
-    public async void generate_thumbnail(){
-        print("%s\n", "Generating "+image_path);
+    public async void generate_thumbnail () {
+        stdout.printf ("Generating thumb\n");
+        // Get file
+        GLib.File file = GLib.File.new_for_commandline_arg (image_path);
 
-        GLib.Idle.add(this.generate_thumbnail.callback);
-        yield;
+        try {
+            // Async read image
+            GLib.InputStream stream = yield file.read_async ();
+            Gdk.Pixbuf pixbuf = yield new Gdk.Pixbuf.from_stream_at_scale_async (stream, 120, -1, true);
+            
+            // Update thumb
+            thumb_picture = pixbuf;
+            image.set_from_pixbuf (pixbuf);
+
+            // Save to disk
+            string cache_folder = Environment.get_home_dir ()+"/.cache/thumbnails/large/";
+            pixbuf.save(cache_folder+md5_name+".png", "png");
         
-        // Get original image
-        Gdk.Pixbuf pix = new Gdk.Pixbuf.from_file (image_path);
-
-        // Scale to 120 width
-        pix = utils.scale_image(pix,120, Gdk.InterpType.NEAREST);
-
-        // Update thumbnail
-        thumb_picture = pix;
-        image.set_from_pixbuf (thumb_picture);
-        print("%s\n", "Done!");
-
-        // Save to disk
-		string cache_folder = Environment.get_home_dir ()+"/.cache/thumbnails/large/";
-		pix.save(cache_folder+md5_name+".png", "png");
-    }
+        } catch ( GLib.Error e ) {
+          GLib.error (e.message);
+        }
+      }
 }
