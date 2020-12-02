@@ -35,23 +35,17 @@ public class Application : Gtk.Application {
 
 		foreach (PGallery.Thumbnail thumb in thumbnails_manager.get_thumbnails()) {
 
-			// Create image
-			Gtk.Image image = new Gtk.Image ();		
-
-			// Set thumbnail image
-			image.set_from_pixbuf (thumb.thumb_picture);
-
 			// Click event
 			Gtk.EventBox eventbox = new Gtk.EventBox();
 			eventbox.button_press_event.connect( ()=>{ 
 				show_image(thumb.thumb_name); // Show image on click
 				return false; 
 			});
-			eventbox.add(image);
+			eventbox.add(thumb.image);
 		
 			// Attach grid
 			window.grid.attach (eventbox, column, row, 1, 1);
-			image.show();
+			thumb.image.show();
 			eventbox.show();	
 
 
