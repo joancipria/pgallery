@@ -1,6 +1,6 @@
 public class Application : Gtk.Application {
 
-	PGallery.Window window; 
+	PGallery.FolderWindow window; 
 
 	// Thumbnails manager
 	private PGallery.ThumbnailsManager thumbnails_manager = new PGallery.ThumbnailsManager ();
@@ -15,7 +15,7 @@ public class Application : Gtk.Application {
 	}
 
 	protected override void activate () {
-		window = new PGallery.Window (this);
+		window = new PGallery.FolderWindow (this);
 
 		thumbnails_manager.scan_pictures_folder.begin((obj, res) => {
 			stdout.printf ("Finished scanning Pictures directory\n");
@@ -66,6 +66,6 @@ public class Application : Gtk.Application {
 	// Create a dialog showing the selected image
 	public void show_image (string filename) {
 		string image_path = thumbnails_manager.pictures_folder+filename;
-		PGallery.ImageViewer dialog = new PGallery.ImageViewer (this, image_path);
+		PGallery.ImageWindow dialog = new PGallery.ImageWindow (this, image_path);
 	}
 }

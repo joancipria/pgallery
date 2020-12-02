@@ -6,9 +6,9 @@ executable(
 	'ThumbnailsManager.vala',
 	'Utils.vala',
 
-	'Widgets/Window.vala',
+	'Widgets/FolderWindow.vala',
 	'Widgets/Thumbnail.vala',
-	'Widgets/ImageViewer.vala',
+	'Widgets/ImageWindow.vala',
 	'Widgets/HeaderBar.vala',
 
 	dependencies: [

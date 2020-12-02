@@ -1,4 +1,4 @@
-public class PGallery.Window : Gtk.ApplicationWindow {
+public class PGallery.FolderWindow : Gtk.ApplicationWindow {
 	public GLib.Settings settings;
 	
 	// Scroll container
@@ -7,7 +7,7 @@ public class PGallery.Window : Gtk.ApplicationWindow {
 	// Grid
 	public Gtk.Grid grid = new Gtk.Grid();
 
-	public Window (Application app) {
+	public FolderWindow (Application app) {
 		Object (
 			application: app
 		);
