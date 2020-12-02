@@ -27,6 +27,7 @@ public class Application : Gtk.Application {
 	}
 
 	private void create_grid(){
+		stdout.printf ("Creating grid ... \n");
 		int counter = 0;
 
 		// For each found file
@@ -58,6 +59,8 @@ public class Application : Gtk.Application {
 			}
 			
 		}
+		stdout.printf ("Finished creating grid\n");
+
 	}
 
 	// Create a dialog showing the selected image

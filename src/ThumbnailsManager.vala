@@ -18,17 +18,18 @@ public class PGallery.ThumbnailsManager
     }
 
     public void generate_thumbnails(){
-
+        stdout.printf ("Start generating thumbnails\n");
          // Create a thumb for each found image
         foreach (string filename in scanned_images) {
 
              // Get / create thumbnail
-            Gdk.Pixbuf pix = new Gdk.Pixbuf.from_file ("/home/joan/default.png");
-            PGallery.Thumbnail thumb = new PGallery.Thumbnail(pix, filename);
+            PGallery.Thumbnail thumb = new PGallery.Thumbnail(filename);
 
             // Add to list
             thumbnails += thumb;
         }
+        stdout.printf ("Finished generating thumbnails\n");
+
     } 
 
     // Scans Pictures folder looking for image files 

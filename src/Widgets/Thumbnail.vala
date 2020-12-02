@@ -6,30 +6,29 @@ public class PGallery.Thumbnail
     // Thumb pix and name
     public Gdk.Pixbuf thumb_picture;
     public string thumb_name;
+    public string md5_name;
+    public string image_path;
 
     // Thumb Gtk image (rendered image)
 	public Gtk.Image image = new Gtk.Image ();		
 
 
+    public Thumbnail(string file_name){
+        // Default thumb icon (to show while generating thumbnail)
+        thumb_picture = new Gdk.Pixbuf.from_file ("/home/joan/default.png");
+        image.set_from_pixbuf (thumb_picture);
 
-    public Thumbnail(Gdk.Pixbuf pix, string name){
-        thumb_picture = pix;
-        thumb_name = name;
+        // Set filename
+        thumb_name = file_name;
 
-        // Set default thumbnail image
-        image.set_from_pixbuf (pix);
+        // Image file path
+        image_path = thumbnails_manager.pictures_folder+thumb_name;
 
-        // Load thumb
-        load_thumb(name);
-    }
 
-    // Looks for the thumb in system cache or creates a new one
-    public void load_thumb(string name){
-        
+        // Check if there is already a generated thumbnail
         // Get MD5 of file
-        string file_md5 = "";
         try {
-            file_md5 = utils.get_md5(thumbnails_manager.pictures_folder+name);
+            md5_name = utils.get_md5(image_path);
         }
         catch (Error err){
             stderr.printf ("Error: failed to get file_md5 in scan_thumbnails(): %s\n", err.message);
@@ -38,35 +37,36 @@ public class PGallery.Thumbnail
         // Check if thumb exists in cache
         try {
             // Try getting thumbnail from system cache
-            thumb_picture = new Gdk.Pixbuf.from_file (thumbnails_manager.thumbnails_folder+file_md5+".png");
+            thumb_picture = new Gdk.Pixbuf.from_file (thumbnails_manager.thumbnails_folder+md5_name+".png");
             image.set_from_pixbuf (thumb_picture);
         }
         catch {
             // In case of fail, generate own thumbnail (async)
-            generate_thumbnail.begin(thumbnails_manager.pictures_folder+name,(obj, res)=>{
-                // On finished, render thumb
-                thumb_picture =generate_thumbnail.end(res);
-                image.set_from_pixbuf (thumb_picture);
-            });
+            generate_thumbnail.begin();
         }
+
     }
 
-    // Generates a Pixbuf thumbnail of the given image
-	private async Gdk.Pixbuf generate_thumbnail(string image_path){
-		stdout.printf ("Generating thumbnail ... Please wait\n");
-		// Reade image file
-		Gdk.Pixbuf pix = new Gdk.Pixbuf.from_file (image_path);
+    // Generates a thumbnail from the original image
+    public async void generate_thumbnail(){
+        print("%s\n", "Generating "+image_path);
 
-		// Scale image
-		pix = utils.scale_image(pix,120, Gdk.InterpType.NEAREST);
+        GLib.Idle.add(this.generate_thumbnail.callback);
+        yield;
+        
+        // Get original image
+        Gdk.Pixbuf pix = new Gdk.Pixbuf.from_file (image_path);
 
-		// Folders
+        // Scale to 120 width
+        pix = utils.scale_image(pix,120, Gdk.InterpType.NEAREST);
+
+        // Update thumbnail
+        thumb_picture = pix;
+        image.set_from_pixbuf (thumb_picture);
+        print("%s\n", "Done!");
+
+        // Save to disk
 		string cache_folder = Environment.get_home_dir ()+"/.cache/thumbnails/large/";
-		string file_name = utils.get_md5(image_path);
-
-		// Save to disk
-		pix.save(cache_folder+file_name+".png", "png");
-		// Return thumbnail
-		return pix;
-	}
+		pix.save(cache_folder+md5_name+".png", "png");
+    }
 }
