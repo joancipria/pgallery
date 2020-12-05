@@ -41,7 +41,7 @@ public class PGallery.ImageWindow : Gtk.ApplicationWindow {
 		try {
             // Async read image
             GLib.InputStream stream = yield file.read_async ();
-            Gdk.Pixbuf pixbuf = yield new Gdk.Pixbuf.from_stream_at_scale_async (stream, 360, -1, true);
+            Gdk.Pixbuf pixbuf = new Gdk.Pixbuf.from_stream_at_scale (stream, 360, -1, true);
             
 			// Set scaled image
 			image.set_from_pixbuf (pixbuf);
