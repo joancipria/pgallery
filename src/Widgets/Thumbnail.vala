@@ -38,12 +38,7 @@ public class PGallery.Thumbnail
 
         // Check if there is already a generated thumbnail
         // Get MD5 of file
-        try {
-            md5_name = utils.get_md5(image_path);
-        }
-        catch (Error err){
-            stderr.printf ("Error: failed to get file_md5 in scan_thumbnails(): %s\n", err.message);
-        }
+        md5_name = utils.get_md5(image_path);
 
         // Check if thumb exists in cache
         try {
@@ -90,6 +85,6 @@ public class PGallery.Thumbnail
     // Create a dialog showing the selected image
 	public void show_image (string filename) {
 		string image_path = thumbnails_manager.pictures_folder+filename;
-		PGallery.ImageWindow dialog = new PGallery.ImageWindow (image_path);
+		new PGallery.ImageWindow (image_path);
 	}
 }

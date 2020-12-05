@@ -5,8 +5,6 @@ public class Application : Gtk.Application {
 	// Thumbnails manager
 	private PGallery.ThumbnailsManager thumbnails_manager = new PGallery.ThumbnailsManager ();
 	
-	private PGallery.Utils utils = new PGallery.Utils ();
-
 	public Application () {
 		Object (
 			application_id: "com.github.joancipria.pgallery",
@@ -34,7 +32,12 @@ public class Application : Gtk.Application {
 
 		// TODO: Load css provicer from external file
 		//css_provider.load_from_resource (path);
-		css_provider.load_from_data(".thumbnail { border: none; padding: 0; }");
+		try{
+			css_provider.load_from_data(".thumbnail { border: none; padding: 0; }");
+		}
+        catch (Error err){
+            stderr.printf ("Error: failed getting style file: %s\n", err.message);
+        }
 
 		Gtk.StyleContext.add_provider_for_screen (
 			Gdk.Screen.get_default (),

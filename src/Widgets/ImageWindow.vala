@@ -2,10 +2,6 @@ public class PGallery.ImageWindow : Gtk.ApplicationWindow {
 
 	// gsettings
 	public GLib.Settings settings;
-	private PGallery.Utils utils = new PGallery.Utils ();
-
-	// Pix of the rendered image
-	private Gdk.Pixbuf renderedPix;
 
 	public ImageWindow (string path) {
 

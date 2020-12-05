@@ -1,7 +1,5 @@
 public class PGallery.ThumbnailsManager
 {
-    private PGallery.Utils utils = new PGallery.Utils ();
-
     // User's Pictures folder
     public string pictures_folder = Environment.get_home_dir ()+"/Pictures/";
 
