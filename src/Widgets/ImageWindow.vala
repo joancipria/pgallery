@@ -7,10 +7,7 @@ public class PGallery.ImageWindow : Gtk.ApplicationWindow {
 	// Pix of the rendered image
 	private Gdk.Pixbuf renderedPix;
 
-	public ImageWindow (Application app, string path) {
-		Object (
-			application: app
-		);
+	public ImageWindow (string path) {
 
 		// Create widgets
 		create_widgets.begin(path);

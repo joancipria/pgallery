@@ -17,6 +17,9 @@ public class Application : Gtk.Application {
 	protected override void activate () {
 		window = new PGallery.FolderWindow (this);
 
+		// Load custom styles
+		style_provider();
+
 		thumbnails_manager.scan_pictures_folder.begin((obj, res) => {
 			stdout.printf ("Finished scanning Pictures directory\n");
 			thumbnails_manager.generate_thumbnails();
@@ -24,6 +27,20 @@ public class Application : Gtk.Application {
 		});
 
 		add_window (window);
+	}
+
+	private void style_provider () {
+		var css_provider = new Gtk.CssProvider ();
+
+		// TODO: Load css provicer from external file
+		//css_provider.load_from_resource (path);
+		css_provider.load_from_data(".thumbnail { border: none; padding: 0; }");
+
+		Gtk.StyleContext.add_provider_for_screen (
+			Gdk.Screen.get_default (),
+			css_provider,
+			Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+		);
 	}
 
 	private void create_grid(){
@@ -35,20 +52,9 @@ public class Application : Gtk.Application {
 		int column = 0;
 
 		foreach (PGallery.Thumbnail thumb in thumbnails_manager.get_thumbnails()) {
-
-			// Click event
-			Gtk.EventBox eventbox = new Gtk.EventBox();
-			eventbox.button_press_event.connect( ()=>{ 
-				show_image(thumb.thumb_name); // Show image on click
-				return false; 
-			});
-			eventbox.add(thumb.image);
-		
-			// Attach grid
-			window.grid.attach (eventbox, column, row, 1, 1);
-			thumb.image.show();
-			eventbox.show();	
-
+	
+			// Attach thumbnail to grid
+			window.grid.attach (thumb.button, column, row, 1, 1);
 
 			// Increase counter
 			counter++;
@@ -60,12 +66,5 @@ public class Application : Gtk.Application {
 			
 		}
 		stdout.printf ("Finished creating grid\n");
-
-	}
-
-	// Create a dialog showing the selected image
-	public void show_image (string filename) {
-		string image_path = thumbnails_manager.pictures_folder+filename;
-		PGallery.ImageWindow dialog = new PGallery.ImageWindow (this, image_path);
 	}
 }
