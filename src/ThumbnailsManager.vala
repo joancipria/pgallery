@@ -6,7 +6,7 @@ public class PGallery.ThumbnailsManager
     public string thumbnails_folder = Environment.get_home_dir ()+"/.cache/thumbnails/large/";
 
     // Scanned / detected images
-    private string[] scanned_images = {};
+    private List<FileInfo> scanned_images = new List<FileInfo> ();
 
     private PGallery.Thumbnail[] thumbnails = {};
 
@@ -18,10 +18,10 @@ public class PGallery.ThumbnailsManager
     public void generate_thumbnails(){
         stdout.printf ("Start generating thumbnails\n");
          // Create a thumb for each found image
-        foreach (string filename in scanned_images) {
+        foreach (FileInfo file in scanned_images) {
 
              // Get / create thumbnail
-            PGallery.Thumbnail thumb = new PGallery.Thumbnail(filename);
+            PGallery.Thumbnail thumb = new PGallery.Thumbnail(file.get_name ());
 
             // Add to list
             thumbnails += thumb;
@@ -41,7 +41,7 @@ public class PGallery.ThumbnailsManager
 
         try {
             // Asynchronous call, to get directory entries
-            var e = yield dir.enumerate_children_async (FileAttribute.STANDARD_NAME,
+            var e = yield dir.enumerate_children_async (FileAttribute.TIME_MODIFIED,
                                                         0, Priority.DEFAULT);
             while (true) {
                 // Asynchronous call, to get entries so far
@@ -60,18 +60,26 @@ public class PGallery.ThumbnailsManager
                     // Check if is an image
                     if (".jpg" in filename || ".png" in filename || ".jpeg" in filename || ".gif" in filename ) {						
                         // Push file to scanned images
-                        scanned_images += filename;
+                        scanned_images.append(info);
                     }
                 }
             }
+
         } catch (Error err) {
             stderr.printf ("Error: scan_pictures_folder failed: %s\n", err.message);
         }
+
+        // Sort images by modification time
+        scanned_images.sort(compare_modification_time);
     }
 
-    public string[] get_scanned_images(){
-        return scanned_images;
-    }
+    // Sort by modification time function
+    private CompareFunc<FileInfo> compare_modification_time = (a, b) => {
+        int64 c = a.get_modification_date_time().to_unix ();
+        int64 d = b.get_modification_date_time().to_unix ();
+        return (int) (c > d) - (int) (c < d);
+    };
+    
 
     public PGallery.Thumbnail[] get_thumbnails(){
         return thumbnails;
