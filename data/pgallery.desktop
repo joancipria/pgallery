@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=PGallery
+GenericName=Simple photo gallery
+Comment=A dead simple photo gallery made for Pinephone.
+Categories=Graphics;Multimedia;
+Exec=com.github.joancipria.pgallery
+Icon=emblem-photos
+Terminal=false
+Type=Application
+Keywords=gallery;pgallery;photos
