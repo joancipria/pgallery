@@ -25,10 +25,7 @@ public class PGallery.HeaderBar : Gtk.HeaderBar {
 
     public void add_settings_button (){
         // Create settings button
-        Gtk.Button settings_button = new Gtk.Button.from_icon_name("settings");
-
-        // Set suggested style
-        settings_button.get_style_context().add_class("suggested-action");
+        Gtk.Button settings_button = new Gtk.Button.from_icon_name("view-more-horizontal");
 
         // Vertically align button
         settings_button.valign = Gtk.Align.CENTER;
